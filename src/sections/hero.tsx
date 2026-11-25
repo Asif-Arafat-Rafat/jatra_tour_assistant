@@ -64,7 +64,7 @@ export default function Hero({ onSearch ,language}) {
   };
 
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section className="relative overflow-hidden h-[calc(100vh-76px)] bg-background">
       {/* Decorative background */}
       <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-secondary/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
@@ -72,7 +72,7 @@ export default function Hero({ onSearch ,language}) {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
 
         {/* Language switcher */}
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-16">
 
           {/* Left: Hero content */}
           <div>

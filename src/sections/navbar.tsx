@@ -55,7 +55,7 @@ export default function Navbar({
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-surface/90 shadow-sm backdrop-blur-xl">
 
       <nav
-        className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 sm:px-8"
+        className="mx-auto flex h-[75px] max-w-7xl items-center justify-between px-5 sm:px-8"
         aria-label="Main navigation"
       >
         {/* BRAND */}
