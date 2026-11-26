@@ -1,4 +1,4 @@
-import { Map, setWorkerUrl } from 'maplibre-gl'
+import { Map, setWorkerUrl,Marker } from 'maplibre-gl'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import {useRef,useEffect, useState} from 'react'
@@ -6,8 +6,13 @@ setWorkerUrl(workerUrl)
 
 export default function MapPage(){
         const mapContainer = useRef<HTMLDivElement | null>(null)
+        const mapRef = useRef<Map | null>(null);
+        const markerRef = useRef<Marker | null>(null);
         const [position,setPosition]=useState("")
-        const [results,setResults]=useState([90.48, 23.811]);
+        const [results, setResults] = useState<[number, number]>([
+                                        90.48,
+                                        23.811
+                                    ]);
         async function searchLocation() {
             if (!position.trim()) return;
 
@@ -36,33 +41,47 @@ export default function MapPage(){
             console.error(error);
             }
         }
-        useEffect(() => {
+        useEffect(()=>{
             if (!mapContainer.current) return
     
             const map = new Map({
                 container: mapContainer.current,
-                // OpenFreeMap supports 'bright', 'liberty', or 'positron' (not 'dark')
-                // For a dark map, use: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
                 style: 'https://tiles.openfreemap.org/styles/bright',
-                center: results,
+                center: [
+                    90.48,
+                    23.811
+                ],
                 zoom:12,
                 attributionControl: false
             })
-    
-            map.on('error', (e) => {
-                console.error('MapLibre error:', e.error)
-            })
-    
-            ;(window as any).map = map
-            return () => {
-                map.remove()
-            }
-        }, [results])
+            mapRef.current=map;
+            markerRef.current=new Marker().setLngLat(mapRef.current.getCenter()).addTo(map);
+            map.on('error',(e)=>{console.error("Error 1:",e.error)});
+            return ()=>{
+                map.remove();
+                mapRef.current=null;
+                markerRef.current=null;
+            };
+        },[])
+        useEffect(() => {
+            if (!mapRef.current || !markerRef.current) return;
+            markerRef.current.setLngLat(results);
+
+            mapRef.current.flyTo({
+                center: results,
+                zoom: 15,
+                speed: 1.2,
+                curve: 1.42,
+                essential: true
+            });
+
+        }, [results]);
+        
     return(<>
             <div className='overflow-hidden relative'>
                 <div className='absolute z-5 left-5 top-5 flex items-center justify-center w-50 h-20 bg-accent/60 rounded-2xl'>
-                    <input type="text" className='bg-white/60' value={position} onChange={(e)=>setPosition(e.target.value)}/>
-                    <button onClick={searchLocation} className='p-2 bg-blue-200'>submit</button>
+                    <input type="text" className='bg-white/60 h-8 w-[70%]' value={position} onChange={(e)=>setPosition(e.target.value)}/>
+                    <button onClick={searchLocation} className='h-8 w-[30%] bg-blue-200'>submit</button>
                 </div>
                 <div
                     ref={mapContainer}
