@@ -58,7 +58,7 @@ export default function MapViewer({ language = 'en' }: { language: 'en' | 'bn' }
             container: mapContainer.current,
             // OpenFreeMap supports 'bright', 'liberty', or 'positron' (not 'dark')
             // For a dark map, use: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
-            style: 'https://tiles.openfreemap.org/styles/positron',
+            style: 'https://tiles.openfreemap.org/styles/dark',
             center: [90.48, 23.811],
             zoom: 12,
             attributionControl: false

@@ -21,9 +21,10 @@ const navigation = {
 export default function Navbar({
   language = "en",
   onLanguageChange,
+  active
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("#home");
+  const [activeLink, setActiveLink] = useState(active);
 
   const isBangla = language === "bn";
 

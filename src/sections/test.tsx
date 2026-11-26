@@ -22,7 +22,7 @@ const translations = {
     }
 }
 
-export default function MapViewer({ language }: MapViewerProps) {
+export default function MapViewerTest({ language }: MapViewerProps) {
 
     const mapContainer = useRef<HTMLDivElement | null>(null)
 
