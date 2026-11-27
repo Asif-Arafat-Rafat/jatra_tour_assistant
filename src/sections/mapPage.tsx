@@ -8,6 +8,7 @@ export default function MapPage(){
         const mapContainer = useRef<HTMLDivElement | null>(null)
         const mapRef = useRef<Map | null>(null);
         const markerRef = useRef<Marker | null>(null);
+        const [markerActive,setMarkerActive]=useState(false);
         const [position,setPosition]=useState("")
         const [results, setResults] = useState<[number, number]>([
                                         90.48,
@@ -15,7 +16,7 @@ export default function MapPage(){
                                     ]);
         async function searchLocation() {
             if (!position.trim()) return;
-
+            setMarkerActive(true);
             const params = new URLSearchParams({
             q: `${position}, Dhaka, Bangladesh`,
             format: "jsonv2",
@@ -55,7 +56,7 @@ export default function MapPage(){
                 attributionControl: false
             })
             mapRef.current=map;
-            markerRef.current=new Marker().setLngLat(mapRef.current.getCenter()).addTo(map);
+            markerRef.current=new Marker().setLngLat(mapRef.current.getCenter());
             map.on('error',(e)=>{console.error("Error 1:",e.error)});
             return ()=>{
                 map.remove();
@@ -65,7 +66,7 @@ export default function MapPage(){
         },[])
         useEffect(() => {
             if (!mapRef.current || !markerRef.current) return;
-            markerRef.current.setLngLat(results);
+            if(markerActive && mapRef) markerRef.current.setLngLat(results).addTo(mapRef.current);
 
             mapRef.current.flyTo({
                 center: results,
