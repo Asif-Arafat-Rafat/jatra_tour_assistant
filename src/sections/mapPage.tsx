@@ -10,10 +10,7 @@ export default function MapPage(){
         const markerRef = useRef<Marker | null>(null);
         const [markerActive,setMarkerActive]=useState(false);
         const [position,setPosition]=useState("")
-        const [results, setResults] = useState<[number, number]>([
-                                        90.48,
-                                        23.811
-                                    ]);
+        const [results, setResults] = useState<[number, number]>([90.48,23.811]);
         async function searchLocation() {
             if (!position.trim()) return;
             setMarkerActive(true);
@@ -48,10 +45,7 @@ export default function MapPage(){
             const map = new Map({
                 container: mapContainer.current,
                 style: 'https://tiles.openfreemap.org/styles/bright',
-                center: [
-                    90.48,
-                    23.811
-                ],
+                center: [90.48,23.811],
                 zoom:12,
                 attributionControl: false
             })
@@ -86,7 +80,7 @@ export default function MapPage(){
                 </div>
                 <div
                     ref={mapContainer}
-                    className="w-[100vw] h-[100vh] rounded-lg"
+                    className="w-screen h-screen rounded-lg"
                 />
             </div>
     </>)
